@@ -1,0 +1,76 @@
+﻿<Window x:Name="Main" x:Class="SpotifyExtension.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpotifyExtension.View"
+        mc:Ignorable="d"
+        Title="Sptify Tracklist Comparer" Height="765" Width="1050" Background="#FFCAD8D0"
+        DataContext="{StaticResource MainViewModel}" ResizeMode="NoResize">
+    <Grid>
+        <StackPanel Orientation="Vertical" Name="MainPanel">
+            <StackPanel Orientation="Vertical" Name="UserInformation">
+                    <StackPanel Orientation="Horizontal" Name="UserID">
+                        <Label Name="UserIDText" Content="Please Enter Your Spotify User ID:">
+                            <Label.ToolTip>
+                                <StackPanel>
+                                    <TextBlock Text="1.Open the desktop spotify application 2.Click on your name on the upper right corner of the screen 3. A screeen with your name and bunch of playlist will show up. Click on the circle with the three dots in them. (...)  4.Click on copy profile link  5.Open up a browser and paste it into the search bar 6.the number that shows at the end of the url is your Username"></TextBlock>
+                                </StackPanel>
+                            </Label.ToolTip>
+                        </Label>
+                    <TextBox Height="20" Width="200" Name="UID" Text="{Binding UserID, Mode=TwoWay}"></TextBox>
+                    <Button  Height="20" Width="100" Content="Login" Margin="5,0,0,0" Command="{Binding GetUser}"></Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Name="UserName">
+                    <Label Name="CurrentAccountOwnerNameText">Spotify Owner Name:</Label>
+                    <Label Name="CurrentAccountOwnerName" Content="{Binding CurrentUser.display_name}"></Label>
+                </StackPanel>
+            </StackPanel>
+        <StackPanel Orientation="Horizontal" Name="PlaylistsPanel">
+            <StackPanel Orientation="Vertical" Name="CurrentPlaylists">
+                <ListView Width="500" Height="300" Name="Playlists" SelectedItem="{Binding SelectedPlaylist}" ItemsSource="{Binding FullPlaylists}">
+                    <ListView.View>
+                        <GridView >
+                            <GridViewColumn Header="ID" Width="100" DisplayMemberBinding="{Binding id}" ></GridViewColumn>
+                            <GridViewColumn Header="Name" Width="300" DisplayMemberBinding="{Binding name}" ></GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <ListView Margin="10" Width="500"  Height="300" Name="Tracks" ItemsSource="{Binding SelectedPlaylist.trackList}">
+                    <ListView.View>
+                        <GridView >
+                            <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding track.id}" ></GridViewColumn>
+                            <GridViewColumn Header=" Track Name" Width="200" DisplayMemberBinding="{Binding track.name}" ></GridViewColumn>
+                            <GridViewColumn Header="Added Date" Width="300" DisplayMemberBinding="{Binding added_at}" ></GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Name="ComparedPlaylists">
+                    <ListView Width="500" Height="300" Name="ComparedPlaylist" SelectedItem="{Binding SelectedPlaylistCompareResult}" ItemsSource="{Binding CompareResults}">
+                    <ListView.View>
+                        <GridView >
+                            <GridViewColumn Header="ID" Width="100" DisplayMemberBinding="{Binding id}" ></GridViewColumn>
+                            <GridViewColumn Header="Name" Width="300" DisplayMemberBinding="{Binding name}" ></GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                    <ListView ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="10" Width="500" Height="300" Name="ComparedTracks" ItemsSource="{Binding SelectedPlaylistCompareResult.trackList}">
+                    <ListView.View>
+                        <GridView >
+                            <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding track.id}" ></GridViewColumn>
+                            <GridViewColumn Header=" Track Name" Width="200" DisplayMemberBinding="{Binding track.name}" ></GridViewColumn>
+                            <GridViewColumn Header="Added Date" Width="300" DisplayMemberBinding="{Binding added_at}" ></GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+        </StackPanel>
+            <StackPanel Margin="1" Name="Buttons">
+                <Button Margin="1" Command="{Binding SaveCommand}" IsEnabled="{Binding IsProgressing}">Save</Button>
+                <Button Margin="3" Command="{Binding CompareCommand}" IsEnabled="{Binding IsProgressing}">Compare</Button>
+                <!--<Button Visibility="Hidden" Margin="5" Command="{Binding SaveCompareResults}">Save Compare Results To Spotify</Button>-->
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
