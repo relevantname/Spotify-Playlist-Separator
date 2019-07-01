@@ -3,6 +3,7 @@ SpotifyPlaylistSeparator
 Spotify Extension For Separating Different Songs Between Playlists
 
 How to use it?
+
 1- Get your Spotify Account ID.
 2- Open the app.
 3- Enter your Spotify Account ID to the input field on top of the application.
